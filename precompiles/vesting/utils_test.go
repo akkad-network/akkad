@@ -7,9 +7,6 @@ import (
 
 	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/evmos/evmos/v18/precompiles/vesting"
@@ -111,7 +108,8 @@ func (s *PrecompileTestSuite) ExpectVestingFunder(vestingAddr common.Address, fu
 
 // GetVestingAccount returns the vesting account for the given address.
 func (s *PrecompileTestSuite) GetVestingAccount(addr common.Address) *vestingtypes.ClawbackVestingAccount {
-	acc := s.network.App.AccountKeeper.GetAccount(s.network.GetContext(), addr.Bytes())
+	acc, err := s.grpcHandler.GetAccount(sdk.AccAddress(addr.Bytes()).String())
+	Expect(err).To(BeNil())
 	Expect(acc).ToNot(BeNil(), "vesting account should exist")
 	vestingAcc, ok := acc.(*vestingtypes.ClawbackVestingAccount)
 	Expect(ok).To(BeTrue(), "vesting account should be of type VestingAccount")
