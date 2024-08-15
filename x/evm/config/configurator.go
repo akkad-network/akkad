@@ -8,12 +8,16 @@ package config
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	"golang.org/x/exp/slices"
 
 	"github.com/evmos/evmos/v19/x/evm/core/vm"
 	"github.com/evmos/evmos/v19/x/evm/types"
 )
+
+var logger = log.New(os.Stdout, "INFO: (EIPS)", log.Ldate|log.Lshortfile)
 
 // EVMConfigurator allows to extend x/evm module configurations. The configurator modifies
 // the EVM before starting the node. This means that all init genesis validations will be
@@ -26,6 +30,7 @@ type EVMConfigurator struct {
 
 // NewEVMConfigurator returns a pointer to a new EVMConfigurator object.
 func NewEVMConfigurator() *EVMConfigurator {
+	logger.Printf("Starting EVM configurator...")
 	return &EVMConfigurator{}
 }
 
@@ -70,6 +75,7 @@ func (ec *EVMConfigurator) Configure() error {
 	// After applying modifier the configurator is sealed. This way, it is not possible
 	// to call the configure method twice.
 	ec.sealed = true
+	logger.Printf("EVM configurator is now sealed.")
 
 	return nil
 }

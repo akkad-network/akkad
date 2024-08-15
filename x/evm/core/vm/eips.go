@@ -18,6 +18,8 @@ package vm
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -25,6 +27,8 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/holiman/uint256"
 )
+
+var logger = log.New(os.Stdout, "ERROR: (EIPS)", log.Ldate|log.Lshortfile)
 
 var activators = map[string]func(*JumpTable){
 	"ethereum_3855": enable3855,
@@ -41,6 +45,7 @@ var activators = map[string]func(*JumpTable){
 // defined jump tables are not polluted.
 func EnableEIP(eipName string, jt *JumpTable) error {
 	enablerFn, ok := activators[eipName]
+	logger.Printf("Enabling EIP %v", eipName)
 	if !ok {
 		return fmt.Errorf("undefined eip %s", eipName)
 	}
