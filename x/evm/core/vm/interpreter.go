@@ -71,7 +71,9 @@ func NewEVMInterpreter(evm *EVM, cfg Config) *EVMInterpreter {
 	// If jump table was not initialised we set the default one.
 	if cfg.JumpTable == nil {
 		cfg.JumpTable = DefaultJumpTable(evm.chainRules)
+		logger.Printf("ExtraEIPs %v", cfg.ExtraEips)
 		for i, eip := range cfg.ExtraEips {
+			logger.Printf("EIP %v", eip)
 			// Deep-copy jumptable to prevent modification of opcodes in other tables
 			copy := CopyJumpTable(cfg.JumpTable)
 			if err := EnableEIP(eip, copy); err != nil {
