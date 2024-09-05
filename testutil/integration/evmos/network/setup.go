@@ -10,8 +10,6 @@ import (
 	"github.com/evmos/evmos/v19/app"
 	"github.com/evmos/evmos/v19/encoding"
 
-	abci "github.com/cometbft/cometbft/abci/types"
-
 	"cosmossdk.io/simapp"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/testutil/mock"
@@ -89,14 +87,14 @@ func getAccAddrsFromBalances(balances []banktypes.Balance) []sdktypes.AccAddress
 	return genAccounts
 }
 
-// createBalances creates balances for the given accounts and coin
-func createBalances(accounts []sdktypes.AccAddress, coin sdktypes.Coin) []banktypes.Balance {
+// createBalances creates balances for the given accounts and coins
+func createBalances(accounts []sdktypes.AccAddress, coins sdktypes.Coins) []banktypes.Balance {
 	numberOfAccounts := len(accounts)
 	fundedAccountBalances := make([]banktypes.Balance, 0, numberOfAccounts)
 	for _, acc := range accounts {
 		balance := banktypes.Balance{
 			Address: acc.String(),
-			Coins:   sdktypes.NewCoins(coin),
+			Coins:   coins,
 		}
 
 		fundedAccountBalances = append(fundedAccountBalances, balance)
@@ -262,7 +260,7 @@ type defaultGenesisParams struct {
 	genAccounts []authtypes.GenesisAccount
 	staking     StakingCustomGenesisState
 	bank        BankCustomGenesisState
-	valUpdate   []abci.ValidatorUpdate
+	valUpdate   []abcitypes.ValidatorUpdate
 }
 
 // genStateSetter is a generic function to set module-specific genesis state
@@ -320,7 +318,7 @@ func setDefaultErc20GenesisState(evmosApp *app.Evmos, genesisState simapp.Genesi
 	return genesisState
 }
 
-func setDefaultCcvGenesisState(evmosApp *app.Evmos, genesisState simapp.GenesisState, initValPowers []abci.ValidatorUpdate) simapp.GenesisState {
+func setDefaultCcvGenesisState(evmosApp *app.Evmos, genesisState simapp.GenesisState, initValPowers []abcitypes.ValidatorUpdate) simapp.GenesisState {
 	vals, err := tmtypes.PB2TM.ValidatorUpdates(initValPowers)
 	if err != nil {
 		panic("failed to get vals")

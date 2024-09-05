@@ -121,7 +121,7 @@ func (n *IntegrationNetwork) configureAndInitChain() error {
 
 	fundedAccountBalances = addBondedModuleAccountToFundedBalances(
 		fundedAccountBalances,
-		sdktypes.NewCoin(n.cfg.denom, totalBonded),
+		sdktypes.NewCoin(n.cfg.bondToken.Denom, totalBonded),
 	)
 
 	delegations := createDelegations(valSet.Validators, genAccounts[0].GetAddress())
@@ -130,7 +130,7 @@ func (n *IntegrationNetwork) configureAndInitChain() error {
 	evmosApp := createEvmosApp(n.cfg.chainID)
 
 	stakingParams := StakingCustomGenesisState{
-		denom:       n.cfg.denom,
+		denom:       n.cfg.bondToken.Denom,
 		validators:  validators,
 		delegations: delegations,
 	}
@@ -204,24 +204,25 @@ func (n *IntegrationNetwork) configureAndInitChain() error {
 	// Register EVMOS in denom metadata
 	evmosMetadata := banktypes.Metadata{
 		Description: "The native token of Evmos",
-		Base:        n.cfg.denom,
+		Base:        n.cfg.bondToken.Denom,
 		// NOTE: Denom units MUST be increasing
 		DenomUnits: []*banktypes.DenomUnit{
 			{
-				Denom:    n.cfg.denom,
+				Denom:    n.cfg.bondToken.Denom,
 				Exponent: 0,
-				Aliases:  []string{n.cfg.denom},
+				Aliases:  []string{n.cfg.bondToken.Denom},
 			},
 			{
-				Denom:    n.cfg.denom,
-				Exponent: 18,
+				Denom:    n.cfg.bondToken.Denom,
+				Exponent: uint32(n.cfg.bondToken.Decimals),
 			},
 		},
 		Name:    "Evmos",
 		Symbol:  "EVMOS",
-		Display: n.cfg.denom,
+		Display: n.cfg.bondToken.Denom,
 	}
 	evmosApp.BankKeeper.SetDenomMetaData(n.ctx, evmosMetadata)
+	// TODO: should we add uatom here too?
 
 	return nil
 }
@@ -249,7 +250,7 @@ func (n *IntegrationNetwork) GetEVMChainConfig() *gethparams.ChainConfig {
 
 // GetDenom returns the network's denom
 func (n *IntegrationNetwork) GetDenom() string {
-	return n.cfg.denom
+	return n.cfg.evmToken.Denom
 }
 
 // GetValidators returns the network's validators

@@ -24,6 +24,7 @@ import (
 type Network interface {
 	GetContext() sdktypes.Context
 	GetChainID() string
+	// TODO: should have get evm and bond denom
 	GetDenom() string
 	GetValidators() []stakingtypes.Validator
 

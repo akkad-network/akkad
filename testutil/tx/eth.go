@@ -21,7 +21,6 @@ import (
 
 	"github.com/evmos/evmos/v19/app"
 	"github.com/evmos/evmos/v19/server/config"
-	"github.com/evmos/evmos/v19/x/evm/types"
 	evmtypes "github.com/evmos/evmos/v19/x/evm/types"
 )
 
@@ -63,9 +62,9 @@ func PrepareEthTx(
 	}
 
 	// check denom decimals and adjust txFee on authInfo if corresponds
-	if evmParams.DenomDecimals == types.Denom6Dec {
+	if evmParams.DenomDecimals == evmtypes.Denom6Dec {
 		for i := range txFee {
-			txFee[i] = types.Convert18To6DecimalsCoin(txFee[i])
+			txFee[i] = evmtypes.Convert18To6DecimalsCoin(txFee[i])
 		}
 	}
 
