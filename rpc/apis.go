@@ -3,8 +3,6 @@
 package rpc
 
 import (
-	"fmt"
-
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/server"
 
@@ -179,14 +177,4 @@ func GetRPCAPIs(ctx *server.Context,
 	}
 
 	return apis
-}
-
-// RegisterAPINamespace registers a new API namespace with the API creator.
-// This function fails if the namespace is already registered.
-func RegisterAPINamespace(ns string, creator APICreator) error {
-	if _, ok := apiCreators[ns]; ok {
-		return fmt.Errorf("duplicated api namespace %s", ns)
-	}
-	apiCreators[ns] = creator
-	return nil
 }
