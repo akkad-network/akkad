@@ -96,7 +96,7 @@ func Setup(
 	acc := authtypes.NewBaseAccount(senderPrivKey.PubKey().Address().Bytes(), senderPrivKey.PubKey(), 0, 0)
 	balance := banktypes.Balance{
 		Address: acc.GetAddress().String(),
-		Coins:   sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(100000000000000))),
+		Coins:   sdk.NewCoins(sdk.NewCoin(utils.StakeDenom, sdk.NewInt(100000000000000)), sdk.NewCoin(utils.BaseDenom, sdk.NewInt(100000000000000))),
 	}
 
 	db := dbm.NewMemDB()
@@ -170,7 +170,7 @@ func GenesisStateWithValSet(app *Evmos, genesisState simapp.GenesisState,
 	}
 	// set validators and delegations
 	stakingParams := stakingtypes.DefaultParams()
-	stakingParams.BondDenom = utils.BaseDenom
+	stakingParams.BondDenom = utils.StakeDenom
 	stakingGenesis := stakingtypes.NewGenesisState(stakingParams, validators, delegations)
 	genesisState[stakingtypes.ModuleName] = app.AppCodec().MustMarshalJSON(stakingGenesis)
 
@@ -182,13 +182,13 @@ func GenesisStateWithValSet(app *Evmos, genesisState simapp.GenesisState,
 
 	for range delegations {
 		// add delegated tokens to total supply
-		totalSupply = totalSupply.Add(sdk.NewCoin(utils.BaseDenom, bondAmt))
+		totalSupply = totalSupply.Add(sdk.NewCoin(utils.StakeDenom, bondAmt))
 	}
 
 	// add bonded amount to bonded pool module account
 	balances = append(balances, banktypes.Balance{
 		Address: authtypes.NewModuleAddress(stakingtypes.BondedPoolName).String(),
-		Coins:   sdk.Coins{sdk.NewCoin(utils.BaseDenom, bondAmt)},
+		Coins:   sdk.Coins{sdk.NewCoin(utils.StakeDenom, bondAmt)},
 	})
 
 	// update total supply

@@ -14,28 +14,44 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the Evmos packages. If not, see https://github.com/evmos/evmos/blob/main/LICENSE
 
-package v8
+package main
 
 import (
+	"os"
+
+	"github.com/cosmos/cosmos-sdk/server"
+	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/module"
-	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+
+	"github.com/evmos/evmos/v12/app"
+	cmdcfg "github.com/evmos/evmos/v12/cmd/config"
 )
 
-// CreateUpgradeHandler creates an SDK upgrade handler for v8
-func CreateUpgradeHandler(
-	mm *module.Manager,
-	configurator module.Configurator,
-) upgradetypes.UpgradeHandler {
-	return func(ctx sdk.Context, _ upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		logger := ctx.Logger().With("upgrade", UpgradeName)
+func main() {
+	setupConfig()
+	cmdcfg.RegisterDenoms()
 
-		// Refs:
-		// - https://docs.cosmos.network/master/building-modules/upgrade.html#registering-migrations
-		// - https://docs.cosmos.network/master/migrations/chain-upgrade-guide-044.html#chain-upgrade
+	rootCmd, _ := NewRootCmd()
 
-		// Leave modules are as-is to avoid running InitGenesis.
-		logger.Debug("running module migrations ...")
-		return mm.RunMigrations(ctx, configurator, vm)
+	if err := svrcmd.Execute(rootCmd, "akkadd", app.DefaultNodeHome); err != nil {
+		switch e := err.(type) {
+		case server.ErrorCode:
+			os.Exit(e.Code)
+
+		default:
+			os.Exit(1)
+		}
 	}
+}
+
+func setupConfig() {
+	// set the address prefixes
+	config := sdk.GetConfig()
+	cmdcfg.SetBech32Prefixes(config)
+	// TODO fix
+	// if err := cmdcfg.EnableObservability(); err != nil {
+	// 	panic(err)
+	// }
+	cmdcfg.SetBip44CoinType(config)
+	config.Seal()
 }

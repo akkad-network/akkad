@@ -19,7 +19,12 @@
 *.test
 .glide/
 vendor
-build
+build/*
+deploy/*
+!deploy/dev.js
+!deploy/config.default.json
+!deploy/package.json
+!deploy/README.md
 bin
 tools/bin/*
 docs/_build

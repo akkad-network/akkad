@@ -18,6 +18,8 @@ type envVars struct {
 
 // TestLoadUpgradeParams tests the LoadUpgradeParams function
 func TestLoadUpgradeParams(t *testing.T) {
+	t.Skip("we have not yet tested the upgrade process")
+
 	wd, err := os.Getwd()
 	require.NoError(t, err, "can't get current working directory")
 

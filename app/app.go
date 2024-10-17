@@ -139,14 +139,6 @@ import (
 	_ "github.com/evmos/evmos/v12/client/docs/statik"
 
 	"github.com/evmos/evmos/v12/app/ante"
-	v10 "github.com/evmos/evmos/v12/app/upgrades/v10"
-	v11 "github.com/evmos/evmos/v12/app/upgrades/v11"
-	v12 "github.com/evmos/evmos/v12/app/upgrades/v12"
-	v8 "github.com/evmos/evmos/v12/app/upgrades/v8"
-	v81 "github.com/evmos/evmos/v12/app/upgrades/v8_1"
-	v82 "github.com/evmos/evmos/v12/app/upgrades/v8_2"
-	v9 "github.com/evmos/evmos/v12/app/upgrades/v9"
-	v91 "github.com/evmos/evmos/v12/app/upgrades/v9_1"
 	"github.com/evmos/evmos/v12/x/claims"
 	claimskeeper "github.com/evmos/evmos/v12/x/claims/keeper"
 	claimstypes "github.com/evmos/evmos/v12/x/claims/types"
@@ -189,7 +181,7 @@ func init() {
 		panic(err)
 	}
 
-	DefaultNodeHome = filepath.Join(userHomeDir, ".evmosd")
+	DefaultNodeHome = filepath.Join(userHomeDir, ".akkadd")
 
 	// manually update the power reduction by replacing micro (u) -> atto (a) evmos
 	sdk.DefaultPowerReduction = evmostypes.PowerReduction
@@ -201,7 +193,7 @@ func init() {
 }
 
 // Name defines the application binary name
-const Name = "evmosd"
+const Name = "akkadd"
 
 var (
 	// DefaultNodeHome default home directories for the application daemon
@@ -1147,78 +1139,6 @@ func initParamsKeeper(
 }
 
 func (app *Evmos) setupUpgradeHandlers() {
-	// v8 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v8.UpgradeName,
-		v8.CreateUpgradeHandler(
-			app.mm, app.configurator,
-		),
-	)
-
-	// v8.1 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v81.UpgradeName,
-		v81.CreateUpgradeHandler(
-			app.mm, app.configurator,
-		),
-	)
-
-	// v8.2 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v82.UpgradeName,
-		v82.CreateUpgradeHandler(
-			app.mm, app.configurator,
-		),
-	)
-
-	// v9 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v9.UpgradeName,
-		v9.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.DistrKeeper,
-		),
-	)
-
-	// v9.1 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v91.UpgradeName,
-		v91.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.DistrKeeper,
-		),
-	)
-
-	// v10 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v10.UpgradeName,
-		v10.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.StakingKeeper,
-		),
-	)
-
-	// v11 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v11.UpgradeName,
-		v11.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.AccountKeeper,
-			app.BankKeeper,
-			app.StakingKeeper,
-			app.DistrKeeper,
-		),
-	)
-
-	// v12 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v12.UpgradeName,
-		v12.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.DistrKeeper,
-		),
-	)
-
 	// When a planned update height is reached, the old binary will panic
 	// writing on disk the height and name of the update that triggered it
 	// This will read that value, and execute the preparations for the upgrade.
@@ -1234,33 +1154,6 @@ func (app *Evmos) setupUpgradeHandlers() {
 	var storeUpgrades *storetypes.StoreUpgrades
 
 	switch upgradeInfo.Name {
-	case v8.UpgradeName:
-		// add revenue module for testnet (v7 -> v8)
-		storeUpgrades = &storetypes.StoreUpgrades{
-			Added: []string{"feesplit"},
-		}
-	case v81.UpgradeName:
-		// NOTE: store upgrade for mainnet was not registered and was replaced by
-		// the v8.2 upgrade.
-	case v82.UpgradeName:
-		// add  missing revenue module for mainnet (v8.1 -> v8.2)
-		// IMPORTANT: this upgrade CANNOT be executed for testnet!
-		storeUpgrades = &storetypes.StoreUpgrades{
-			Added:   []string{revenuetypes.ModuleName},
-			Deleted: []string{"feesplit"},
-		}
-	case v9.UpgradeName, v91.UpgradeName:
-		// no store upgrade in v9 or v9.1
-	case v10.UpgradeName:
-		// no store upgrades in v10
-	case v11.UpgradeName:
-		// add ica host submodule in v11
-		// initialize recovery store
-		storeUpgrades = &storetypes.StoreUpgrades{
-			Added: []string{icahosttypes.SubModuleName, recoverytypes.StoreKey},
-		}
-	case v12.UpgradeName:
-		// no store upgrades
 	}
 
 	if storeUpgrades != nil {

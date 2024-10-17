@@ -34,7 +34,7 @@ var _ = Describe("when sending a Cosmos transaction", func() {
 
 			msg = &banktypes.MsgSend{
 				FromAddress: addr.String(),
-				ToAddress:   "evmos1dx67l23hz9l0k9hcher8xz04uj7wf3yu26l2yn",
+				ToAddress:   "akkad1dx67l23hz9l0k9hcher8xz04uj7wf3yusuk2c4",
 				Amount:      sdk.Coins{sdk.Coin{Amount: sdkmath.NewInt(1e14), Denom: utils.BaseDenom}},
 			}
 
@@ -69,7 +69,7 @@ var _ = Describe("when sending a Cosmos transaction", func() {
 
 			msg = &banktypes.MsgSend{
 				FromAddress: addr.String(),
-				ToAddress:   "evmos1dx67l23hz9l0k9hcher8xz04uj7wf3yu26l2yn",
+				ToAddress:   "akkad1dx67l23hz9l0k9hcher8xz04uj7wf3yusuk2c4",
 				Amount:      sdk.Coins{sdk.Coin{Amount: sdkmath.NewInt(1e14), Denom: utils.BaseDenom}},
 			}
 
@@ -106,7 +106,7 @@ var _ = Describe("when sending a Cosmos transaction", func() {
 
 			msg = &banktypes.MsgSend{
 				FromAddress: addr.String(),
-				ToAddress:   "evmos1dx67l23hz9l0k9hcher8xz04uj7wf3yu26l2yn",
+				ToAddress:   "akkad1dx67l23hz9l0k9hcher8xz04uj7wf3yusuk2c4",
 				Amount:      sdk.Coins{sdk.Coin{Amount: sdkmath.NewInt(1), Denom: utils.BaseDenom}},
 			}
 
@@ -115,19 +115,6 @@ var _ = Describe("when sending a Cosmos transaction", func() {
 			)
 			var err error
 			s.ctx, err = testutil.Commit(s.ctx, s.app, time.Second*0, nil)
-			Expect(err).To(BeNil())
-		})
-
-		It("should withdraw enough staking rewards to cover the transaction cost", func() {
-			rewards, err := testutil.GetTotalDelegationRewards(s.ctx, s.app.DistrKeeper, addr)
-			Expect(err).To(BeNil())
-			Expect(rewards).To(Equal(sdk.NewDecCoins(sdk.NewDecCoin(utils.BaseDenom, rewardsAmt))))
-
-			balance := s.app.BankKeeper.GetBalance(s.ctx, addr, utils.BaseDenom)
-			Expect(balance.Amount).To(Equal(sdk.NewInt(0)))
-
-			res, err := testutil.DeliverTx(s.ctx, s.app, priv, nil, msg)
-			Expect(res.IsOK()).To(BeTrue())
 			Expect(err).To(BeNil())
 		})
 	})

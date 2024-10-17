@@ -16,7 +16,7 @@ import (
 
 func init() {
 	cfg := sdk.GetConfig()
-	cfg.SetBech32PrefixForAccount("evmos", "evmospub")
+	cfg.SetBech32PrefixForAccount("akkad", "akkadpub")
 }
 
 func TestGetTransferSenderRecipient(t *testing.T) {
@@ -57,7 +57,7 @@ func TestGetTransferSenderRecipient(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1",
-						Receiver: "evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
 						Amount:   "123456",
 					},
 				),
@@ -85,13 +85,13 @@ func TestGetTransferSenderRecipient(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
 						Amount:   "123456",
 					},
 				),
 			},
-			"evmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
-			"evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+			"akkad1qql8ag4cluz6r4dz28p3w00dnc9w8ueu80jxak",
+			"akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
 			false,
 		},
 		{
@@ -99,14 +99,14 @@ func TestGetTransferSenderRecipient(t *testing.T) {
 			channeltypes.Packet{
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
-						Sender:   "evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Sender:   "akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
 						Receiver: "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
 						Amount:   "123456",
 					},
 				),
 			},
-			"evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
-			"evmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
+			"akkad1qql8ag4cluz6r4dz28p3w00dnc9w8ueu80jxak",
 			false,
 		},
 		{
@@ -115,13 +115,13 @@ func TestGetTransferSenderRecipient(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "osmo1qql8ag4cluz6r4dz28p3w00dnc9w8ueuhnecd2",
-						Receiver: "evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
 						Amount:   "123456",
 					},
 				),
 			},
-			"evmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
-			"evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+			"akkad1qql8ag4cluz6r4dz28p3w00dnc9w8ueu80jxak",
+			"akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
 			false,
 		},
 	}
@@ -165,7 +165,7 @@ func TestGetTransferAmount(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
 						Amount:   "",
 					},
 				),
@@ -179,7 +179,7 @@ func TestGetTransferAmount(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
 						Amount:   "test",
 					},
 				),
@@ -193,7 +193,7 @@ func TestGetTransferAmount(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
 						Amount:   "10000",
 					},
 				),
@@ -207,7 +207,7 @@ func TestGetTransferAmount(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "akkad1x2w87cvt5mqjncav4lxy8yfreynn273xfjc3g2",
 						Amount:   types.IBCTriggerAmt,
 					},
 				),
@@ -255,9 +255,9 @@ func TestGetReceivedCoin(t *testing.T) {
 			"channel-0",
 			"transfer",
 			"channel-0",
-			"transfer/channel-0/aevmos",
+			"transfer/channel-0/aabtc",
 			"10",
-			sdk.Coin{Denom: "aevmos", Amount: sdk.NewInt(10)},
+			sdk.Coin{Denom: "aabtc", Amount: sdk.NewInt(10)},
 		},
 		{
 			"transfer 2x ibc wrapped coin to destination which is its source",
@@ -295,14 +295,14 @@ func TestGetSentCoin(t *testing.T) {
 		expCoin   sdk.Coin
 	}{
 		{
-			"get unwrapped aevmos coin",
-			"aevmos",
+			"get unwrapped aabtc coin",
+			"aabtc",
 			"10",
-			sdk.Coin{Denom: "aevmos", Amount: sdk.NewInt(10)},
+			sdk.Coin{Denom: "aabtc", Amount: sdk.NewInt(10)},
 		},
 		{
-			"get ibc wrapped aevmos coin",
-			"transfer/channel-0/aevmos",
+			"get ibc wrapped aabtc coin",
+			"transfer/channel-0/aabtc",
 			"10",
 			sdk.Coin{Denom: teststypes.AevmosIbcdenom, Amount: sdk.NewInt(10)},
 		},
