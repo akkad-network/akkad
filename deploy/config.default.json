@@ -78,8 +78,8 @@
 
     "app_state.gov.voting_params.voting_period='300s'",
     "app_state.feemarket.params.no_base_fee=false",
-    "app_state.feemarket.params.base_fee='10000000000'",
-    "app_state.feemarket.params.min_gas_price='10000000000.000000000000000000'",
+    "app_state.feemarket.params.base_fee='100000000'",
+    "app_state.feemarket.params.min_gas_price='100000000.000000000000000000'",
     "app_state.feemarket.params.min_gas_multiplier='0.500000000000000000'",
     "app_state.staking.params.unbonding_time='600s'",
     "consensus_params.block.max_gas='40000000'"
