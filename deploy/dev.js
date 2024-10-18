@@ -462,7 +462,7 @@ const main = async function () {
             (platform == 'win32' ? '' : '#!/bin/bash\n') +
             (isNohup && platform !== 'win32' ? 'nohup ' : '') +
             (platform !== 'win32' ? './' : '') +
-            `${daemonApp} start --keyring-backend test --home ./node${i}/${daemon}/` +
+            `${daemonApp} start --keyring-backend ${app.keyring_backend} --home ./node${i}/${daemon}/` +
             (isNohup && platform !== 'win32' ? ` >./${daemon}${i}.log 2>&1 &` : '');
           let stop =
             platform == 'win32'

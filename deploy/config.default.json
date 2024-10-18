@@ -3,6 +3,7 @@
     "prefix": "akkad",
     "chain_name": "akkad",
     "chain_id": "akkad_1000000-1",
+    "keyring_backend": "memory",
     "denoms": [
       "aabtc",
       "aakk"
@@ -49,7 +50,8 @@
     "0x00000be6819f41400225702d32d3dd23663dd690",
     "0x11111116c89d12cc984c156adc748f89deecc1da",
     "0x2222222559fd932507e2bf5b08a89b8e4854dbaa",
-    "0x888888844a5c2cfbffae3a4550f517b4a370daff"
+    "0x888888844a5c2cfbffae3a4550f517b4a370daff",
+    "0xFAC2A4Ac1D07D04630C919284a554aE25f79A1E9"
   ],
   "privateKeys": [
     {
@@ -63,9 +65,9 @@
   ],
   "preMinePerAccount": "10000000000000000000000000",
   "genesisCfg": [
-    "app_state.slashing.params.signed_blocks_window='10'",
+    "app_state.slashing.params.signed_blocks_window='1000000000'",
     "app_state.slashing.params.min_signed_per_window='0.500000000000000000'",
-    "app_state.slashing.params.downtime_jail_duration='3s'",
+    "app_state.slashing.params.downtime_jail_duration='30s'",
 
 
     "app_state.epochs.epochs[1].duration='6s'",
@@ -74,8 +76,8 @@
     "app_state.inflation.params.inflation_distribution.staking_rewards='0.800000000000000000'",
     "app_state.inflation.params.inflation_distribution.community_pool='0.200000000000000000'",
 
-    "app_state.gov.voting_params.voting_period='30s'",
-    "app_state.feemarket.params.no_base_fee=true",
+    "app_state.gov.voting_params.voting_period='300s'",
+    "app_state.feemarket.params.no_base_fee=false",
     "app_state.feemarket.params.base_fee='10000000000'",
     "app_state.feemarket.params.min_gas_price='10000000000.000000000000000000'",
     "app_state.feemarket.params.min_gas_multiplier='0.500000000000000000'",
