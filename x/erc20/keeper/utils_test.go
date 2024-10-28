@@ -90,7 +90,7 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 
 	// bond denom
 	stakingParams := suite.app.StakingKeeper.GetParams(suite.ctx)
-	stakingParams.BondDenom = utils.BaseDenom
+	stakingParams.BondDenom = utils.StakeDenom
 	suite.app.StakingKeeper.SetParams(suite.ctx, stakingParams)
 
 	evmParams := suite.app.EvmKeeper.GetParams(suite.ctx)
@@ -114,7 +114,7 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 		suite.ctx,
 		suite.app.BankKeeper,
 		suite.priv.PubKey().Address().Bytes(),
-		sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, amt)),
+		sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, amt), sdk.NewCoin(utils.StakeDenom, amt)),
 	)
 	suite.Require().NoError(err)
 
@@ -132,6 +132,18 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 	if suite.suiteIBCTesting {
 		suite.SetupIBCTest()
 	}
+
+	//{
+	//	bondedPool := suite.app.StakingKeeper.GetBondedPool(suite.ctx)
+	//	notBondedPool := suite.app.StakingKeeper.GetNotBondedPool(suite.ctx)
+	//	bondDenom := suite.app.StakingKeeper.BondDenom(suite.ctx)
+	//
+	//	poolBonded := suite.app.BankKeeper.GetBalance(suite.ctx, bondedPool.GetAddress(), bondDenom)
+	//	poolNotBonded := suite.app.BankKeeper.GetBalance(suite.ctx, notBondedPool.GetAddress(), bondDenom)
+	//
+	//	_ = poolBonded
+	//	_ = poolNotBonded
+	//}
 }
 
 func (suite *KeeperTestSuite) SetupIBCTest() {

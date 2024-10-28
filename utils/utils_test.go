@@ -17,7 +17,7 @@ import (
 
 func init() {
 	cfg := sdk.GetConfig()
-	cfg.SetBech32PrefixForAccount("evmos", "evmospub")
+	cfg.SetBech32PrefixForAccount("akkad", "akkadpub")
 }
 
 func TestIsSupportedKeys(t *testing.T) {
@@ -100,20 +100,20 @@ func TestGetEvmosAddressFromBech32(t *testing.T) {
 		},
 		{
 			"evmos address",
-			"evmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
-			"evmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"akkad1qql8ag4cluz6r4dz28p3w00dnc9w8ueu80jxak",
+			"akkad1qql8ag4cluz6r4dz28p3w00dnc9w8ueu80jxak",
 			false,
 		},
 		{
 			"cosmos address",
 			"cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-			"evmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"akkad1qql8ag4cluz6r4dz28p3w00dnc9w8ueu80jxak",
 			false,
 		},
 		{
 			"osmosis address",
 			"osmo1qql8ag4cluz6r4dz28p3w00dnc9w8ueuhnecd2",
-			"evmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"akkad1qql8ag4cluz6r4dz28p3w00dnc9w8ueu80jxak",
 			false,
 		},
 	}

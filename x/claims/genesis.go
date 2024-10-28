@@ -30,7 +30,6 @@ import (
 // InitGenesis initializes the claim module's state from a provided genesis
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, data types.GenesisState) {
-	totalEscrowed := sdk.ZeroInt()
 	sumUnclaimed := sdk.ZeroInt()
 	numActions := sdk.NewInt(4)
 
@@ -47,11 +46,6 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, data types.GenesisState) {
 	err := k.SetParams(ctx, data.Params)
 	if err != nil {
 		panic(errorsmod.Wrapf(err, "error setting params"))
-	}
-
-	escrowedCoins := k.GetModuleAccountBalances(ctx)
-	if escrowedCoins != nil {
-		totalEscrowed = escrowedCoins.AmountOfNoDenomValidation(data.Params.ClaimsDenom)
 	}
 
 	for _, claimsRecord := range data.ClaimsRecords {
@@ -75,16 +69,6 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, data types.GenesisState) {
 		}
 
 		k.SetClaimsRecord(ctx, addr, cr)
-	}
-
-	// check for equal only for unclaimed actions
-	if !sumUnclaimed.Equal(totalEscrowed) {
-		panic(
-			fmt.Errorf(
-				"sum of unclaimed amount ≠ escrowed module account amount (%s ≠ %s)",
-				sumUnclaimed, totalEscrowed,
-			),
-		)
 	}
 }
 

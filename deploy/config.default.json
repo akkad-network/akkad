@@ -1,0 +1,87 @@
+{
+  "app": {
+    "prefix": "akkad",
+    "chain_name": "akkad",
+    "chain_id": "akkad_1000000-1",
+    "keyring_backend": "memory",
+    "denoms": [
+      "aabtc",
+      "aakk"
+    ],
+    "port": {
+      "api.address": 1317,
+      "rosetta.address": 8080,
+      "grpc.address": 9090,
+      "grpc-web.address": 7070,
+      "json-rpc.address": 8545,
+      "json-rpc.ws-address": 7545,
+      "json-rpc.metrics-address": 6065
+    },
+    "cfg": {
+      "minimum-gas-prices": "\"0aabtc\"",
+      "pruning": "\"nothing\"",
+      "api.swagger": "true",
+      "api.enabled-unsafe-cors": "true",
+      "rosetta.enable": "false",
+      "rosetta.denom-to-suggest": "\"0aabtc\"",
+      "grpc.enable": "true",
+      "grpc-web.enable": "true",
+      "grpc-web.enable-unsafe-cors": "true",
+      "json-rpc.enable": "true",
+      "json-rpc.api": "\"eth,txpool,personal,net,debug,web3\""
+    }
+  },
+  "tendermint": {
+    "port": {
+      "rpc.laddr": 26657,
+      "rpc.pprof_laddr": 5050,
+      "p2p.laddr": 10000,
+      "instrumentation.prometheus_listen_addr": 16660
+    },
+    "cfg": {
+      "consensus.timeout_commit": "\"1s\"",
+      "rpc.cors_allowed_origins": "[\"*\"]",
+      "instrumentation.prometheus": "true",
+      "p2p.allow_duplicate_ip": "true",
+      "p2p.seeds": "\"\""
+    }
+  },
+  "preMineAccounts": [
+    "0x00000be6819f41400225702d32d3dd23663dd690",
+    "0x11111116c89d12cc984c156adc748f89deecc1da",
+    "0x2222222559fd932507e2bf5b08a89b8e4854dbaa",
+    "0x888888844a5c2cfbffae3a4550f517b4a370daff",
+    "0xFAC2A4Ac1D07D04630C919284a554aE25f79A1E9"
+  ],
+  "privateKeys": [
+    {
+      "name": "alice",
+      "key": "f78a036930ce63791ea6ea20072986d8c3f16a6811f6a2583b0787c45086f769"
+    },
+    {
+      "name": "bob",
+      "key": "95e06fa1a8411d7f6693f486f0f450b122c58feadbcee43fbd02e13da59395d5"
+    }
+  ],
+  "preMinePerAccount": "10000000000000000000000000",
+  "genesisCfg": [
+    "app_state.slashing.params.signed_blocks_window='1000000000'",
+    "app_state.slashing.params.min_signed_per_window='0.500000000000000000'",
+    "app_state.slashing.params.downtime_jail_duration='30s'",
+
+
+    "app_state.epochs.epochs[1].duration='6s'",
+    "app_state.inflation.epochs_per_period='365'",
+    "app_state.inflation.params.enable_inflation=false",
+    "app_state.inflation.params.inflation_distribution.staking_rewards='0.800000000000000000'",
+    "app_state.inflation.params.inflation_distribution.community_pool='0.200000000000000000'",
+
+    "app_state.gov.voting_params.voting_period='300s'",
+    "app_state.feemarket.params.no_base_fee=false",
+    "app_state.feemarket.params.base_fee='100000000'",
+    "app_state.feemarket.params.min_gas_price='100000000.000000000000000000'",
+    "app_state.feemarket.params.min_gas_multiplier='0.500000000000000000'",
+    "app_state.staking.params.unbonding_time='600s'",
+    "consensus_params.block.max_gas='40000000'"
+  ]
+}
